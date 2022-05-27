@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Form\UsuarioFormType;
 use App\Repository\UsuarioRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class UsuariosApiController extends AbstractController
 {    
@@ -32,4 +35,21 @@ class UsuariosApiController extends AbstractController
 
         return $this->json($res);
     }
+
+    public function addUsuario(Request $request){
+        $json = json_decode($request->getContent(), true);
+        $form = $this->createForm(UsuarioFormType::class);
+        $form->submit($json);
+
+        if(!$form->isValid()){
+            //throw error (like printing $form->getErrors(true));
+        }
+         
+        $newUsuario = $form->getData();
+
+        $this->em->persist($newUsuario);
+        $this->em->flush();
+
+        return new Response('', 204);
+    } 
 }

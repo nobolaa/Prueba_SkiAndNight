@@ -2,3 +2,8 @@ listaUsuarios:
     path:       /api/usuarios/v1
     controller: App\Controller\UsuariosApiController::listaUsuarios
     methods:    GET
+
+addUsuario:
+    path:       /api/usuarios/v1
+    controller: App\Controller\UsuariosApiController::addUsuario
+    methods:    POST
